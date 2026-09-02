@@ -1,0 +1,129 @@
+:root{
+  --ath-bg:#07090c;--ath-surface:#0d1117;--ath-raised:#121821;--ath-line:#27313e;
+  --ath-line-hot:#465568;--ath-text:#f6f8fb;--ath-muted:#91a0b2;--ath-signal:#d5ff3f;
+  --ath-blue:#5abaff;--ath-violet:#aa8cff;--ath-orange:#ff9d45;--ath-red:#ff7169;
+  --ath-shadow:0 22px 70px rgba(0,0,0,.5);--ath-radius:14px
+}
+html{scroll-behavior:smooth}
+body.has-app-shell{
+  background:
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
+    radial-gradient(circle at 82% -12%,rgba(90,186,255,.11),transparent 30%),
+    var(--ath-bg)!important;
+  background-size:38px 38px,38px 38px,auto,auto!important;
+  color:var(--ath-text)!important;
+  font-size:16px!important;
+  letter-spacing:-.008em
+}
+body.has-app-shell::before{
+  content:"";position:fixed;inset:0 0 auto;height:3px;z-index:80;
+  background:linear-gradient(90deg,var(--ath-signal) 0 22%,#31402d 22% 100%)
+}
+.app-topbar{
+  position:sticky;top:0;z-index:60;height:74px;background:rgba(7,9,12,.9);
+  border-bottom:1px solid var(--ath-line);backdrop-filter:blur(20px) saturate(140%)
+}
+.app-topbar-inner{max-width:1200px;height:100%;padding:0 18px;margin:auto;display:flex;align-items:center;gap:28px}
+.app-logo{display:flex;align-items:center;gap:11px;color:var(--ath-text);text-decoration:none;flex:none}
+.app-logo-mark{
+  width:36px;height:36px;display:grid;place-items:center;background:var(--ath-signal);color:#080b05;
+  border-radius:9px 9px 9px 2px;font-weight:950;font-size:18px;box-shadow:0 0 30px rgba(213,255,63,.13)
+}
+.app-logo-copy{line-height:1}.app-logo-copy b{display:block;font-size:16px;letter-spacing:.05em}
+.app-logo-copy span{display:block;margin-top:5px;color:var(--ath-muted);font:700 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em}
+.app-nav{display:flex;align-self:stretch;gap:3px}.app-nav a{
+  position:relative;display:flex;align-items:center;gap:9px;padding:0 16px;color:var(--ath-muted);
+  text-decoration:none;font-size:14px;font-weight:800;transition:.18s
+}
+.app-nav svg,.app-mobile-nav svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.app-nav a:hover{color:var(--ath-text);background:rgba(255,255,255,.025)}
+.app-nav a.active{color:var(--ath-text)}.app-nav a.active::after{content:"";position:absolute;left:16px;right:16px;bottom:-1px;height:3px;background:var(--ath-signal);border-radius:3px 3px 0 0}
+.app-athlete{margin-left:auto;display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--ath-line);background:var(--ath-surface);border-radius:11px}
+.app-athlete-dot{width:8px;height:8px;background:var(--ath-signal);border-radius:50%;box-shadow:0 0 12px rgba(213,255,63,.65)}
+.app-athlete-copy{line-height:1.15}.app-athlete-copy b{display:block;font-size:13px}.app-athlete-copy span{font-size:11px;color:var(--ath-muted)}
+.app-mobile-nav{display:none}
+body.has-app-shell .shell{width:min(1200px,100%)!important;padding:22px 18px 100px!important}
+body.has-app-shell .card,body.has-app-shell .panel{
+  position:relative;background:linear-gradient(145deg,rgba(19,25,34,.97),rgba(11,15,21,.98))!important;
+  border:1px solid var(--ath-line)!important;border-radius:var(--ath-radius)!important;box-shadow:var(--ath-shadow)
+}
+body.has-app-shell .card::before,body.has-app-shell .panel::before{
+  content:"";position:absolute;left:-1px;top:24px;width:3px;height:30px;background:var(--ath-signal);border-radius:0 3px 3px 0;opacity:.75
+}
+body.has-app-shell h1,body.has-app-shell h2,body.has-app-shell h3{letter-spacing:-.035em}
+body.has-app-shell .eyebrow{
+  color:var(--ath-signal)!important;font:850 12px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  letter-spacing:.13em!important
+}
+body.has-app-shell .label{font-size:12px!important;font-weight:800;letter-spacing:.12em!important;color:var(--ath-muted)!important}
+body.has-app-shell .sub,body.has-app-shell .hint{color:var(--ath-muted)!important}
+body.has-app-shell .btn{
+  min-height:44px;border-radius:9px!important;border-color:var(--ath-line)!important;background:#151c25!important;
+  color:var(--ath-text)!important;font-size:14px!important;transition:transform .16s,border-color .16s,background .16s
+}
+body.has-app-shell .btn:hover{transform:translateY(-1px);border-color:var(--ath-line-hot)!important}
+body.has-app-shell .btn.primary{background:var(--ath-signal)!important;border-color:var(--ath-signal)!important;color:#090c06!important;box-shadow:0 8px 26px rgba(213,255,63,.12)}
+body.has-app-shell input,body.has-app-shell select,body.has-app-shell textarea,body.has-app-shell .control{
+  min-height:46px!important;border-radius:9px!important;background:#080c11!important;border-color:var(--ath-line)!important;color:var(--ath-text)!important;font-size:15px!important
+}
+body.has-app-shell input:focus,body.has-app-shell select:focus,body.has-app-shell textarea:focus,body.has-app-shell .control:focus{border-color:var(--ath-signal)!important;box-shadow:0 0 0 3px rgba(213,255,63,.09)!important}
+body.has-app-shell .field label{font-size:13px!important;color:#bdc7d4!important}
+
+/* Dashboard */
+.page-home .top{display:none}.page-home .hero{margin:6px 0 22px!important;display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.72fr);gap:22px;align-items:end}
+.page-home .hero h1{font-family:"Arial Narrow",Impact,sans-serif;font-size:clamp(3rem,7vw,5.4rem)!important;line-height:.84!important;letter-spacing:-.045em!important;text-transform:uppercase;margin:9px 0 16px!important}
+.page-home .hero>p{font-size:15px!important;max-width:510px!important}
+.athlete-strip{grid-column:2;grid-row:1/span 3;display:grid;grid-template-columns:repeat(2,1fr);border:1px solid var(--ath-line);background:rgba(13,17,23,.83);border-radius:var(--ath-radius);overflow:hidden;box-shadow:var(--ath-shadow)}
+.athlete-strip-item{padding:17px;border-right:1px solid var(--ath-line);border-bottom:1px solid var(--ath-line);min-height:90px}
+.athlete-strip-item:nth-child(2n){border-right:0}.athlete-strip-item:nth-last-child(-n+2){border-bottom:0}
+.athlete-strip-item span{display:block;color:var(--ath-muted);font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:800}
+.athlete-strip-item b{display:block;margin-top:10px;font-size:15px}
+.page-home .grid{gap:12px!important}.page-home .card{min-height:145px!important;padding:20px!important;overflow:hidden}
+.page-home .card .value{font:800 2.25rem/1 ui-monospace,SFMono-Regular,Menlo,monospace!important;color:var(--ath-text);margin-top:25px!important}
+.page-home .card .value::first-letter{color:var(--ath-signal)}
+.page-home .card.wide{min-height:250px!important}.page-home .macro-row{grid-template-columns:95px 1fr 64px!important;font-size:14px!important;margin-top:19px!important}
+.page-home .bar{height:9px!important;background:#202833!important}.page-home .fill{background:linear-gradient(90deg,#338ed2,var(--ath-blue))!important}.page-home .fill.calories{background:linear-gradient(90deg,#d97625,var(--ath-orange))!important}.page-home .fill.carbs{background:linear-gradient(90deg,#79a925,var(--ath-signal))!important}.page-home .fill.fats{background:linear-gradient(90deg,#7354d7,var(--ath-violet))!important}
+.page-home .section{margin-top:28px!important}.page-home .section-head{border-bottom:1px solid var(--ath-line);padding-bottom:11px}.page-home .section h2{font-size:16px!important;text-transform:uppercase;letter-spacing:.04em}
+.page-home .action{position:relative;border-radius:var(--ath-radius)!important;background:linear-gradient(135deg,#111821,#0b0f15)!important;min-height:180px;overflow:hidden}
+.page-home .action::after{content:"";position:absolute;right:-40px;bottom:-65px;width:180px;height:180px;border:1px solid rgba(90,186,255,.15);border-radius:50%;box-shadow:0 0 0 24px rgba(90,186,255,.035),0 0 0 48px rgba(90,186,255,.02)}
+.page-home .action.training::after{border-color:rgba(170,140,255,.17)}.page-home .action h3{font-size:21px!important}.page-home .action p{font-size:14px!important;max-width:420px}.page-home .action .icon{border-radius:9px!important;background:#172331!important}
+
+/* Nutrition */
+.page-nutrition>.app-topbar+main{}.page-nutrition .shell>header{margin:2px 0 18px!important;padding:17px 4px;align-items:center}.page-nutrition .shell>header .home{display:none}
+.page-nutrition .shell>header .mark{width:46px;height:46px;border-radius:10px;background:transparent!important;border:1px solid var(--ath-line);color:var(--ath-signal);box-shadow:none!important}
+.page-nutrition .shell>header h1{font-family:"Arial Narrow",Impact,sans-serif;font-size:27px!important;text-transform:uppercase;letter-spacing:-.02em!important}
+.page-nutrition .tabs{top:82px!important;background:rgba(9,12,17,.92)!important;border-radius:11px!important;border-color:var(--ath-line)!important;padding:5px!important;backdrop-filter:blur(18px)}
+.page-nutrition .tab{min-height:42px;border-radius:7px!important;font-size:14px!important}.page-nutrition .tab.active{background:var(--ath-signal)!important;color:#080b05!important}
+.page-nutrition .card{border-radius:var(--ath-radius)!important}.page-nutrition .card h2{font-size:19px!important;text-transform:uppercase}.page-nutrition .sub{font-size:14px!important}
+.page-nutrition .stat{border-radius:9px!important;border-color:var(--ath-line)!important}.page-nutrition .stat strong{font:800 20px/1.1 ui-monospace,SFMono-Regular,Menlo,monospace}.page-nutrition .entry{border-radius:9px!important}.page-nutrition .pill,.page-nutrition .check{font-size:12px!important}
+.page-nutrition .food{min-height:62px;border-radius:9px!important}.page-nutrition .food b{font-size:13px!important}.page-nutrition .food small{font-size:11px!important}
+.page-nutrition .ingredient{border-radius:9px!important}.page-nutrition .ingredient b{font-size:14px!important}.page-nutrition .meter{border-radius:8px!important}.page-nutrition .meter strong{font:800 18px/1.1 ui-monospace,SFMono-Regular,Menlo,monospace}
+.page-nutrition .target,.page-nutrition .meal-card,.page-nutrition .rule{border-radius:10px!important}.page-nutrition .target strong{font:800 18px/1.15 ui-monospace,SFMono-Regular,Menlo,monospace}.page-nutrition .meal-card .time{font-size:11px!important}.page-nutrition .meal-card p,.page-nutrition .meal-card ul,.page-nutrition .rule p{font-size:13px!important}
+
+/* Training */
+.page-training main>.top{margin:0!important;justify-content:flex-end}.page-training main>.top .brand{display:none}.page-training main>.top .status{font:700 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ath-muted)}
+.page-training main>header{margin:4px 0 20px!important;padding:8px 3px}.page-training main>header h1{font-family:"Arial Narrow",Impact,sans-serif;font-size:clamp(2.8rem,7vw,4.6rem)!important;text-transform:uppercase;line-height:.9!important}.page-training main>header p{font-size:15px!important}
+.page-training .layout{gap:14px!important}.page-training .panel{border-radius:var(--ath-radius)!important}.page-training .panel h2{font-size:17px!important;text-transform:uppercase;letter-spacing:.02em!important}
+.page-training .template-box{border-radius:10px!important;border-color:#41365a!important;background:linear-gradient(135deg,#181122,#100d17)!important}.page-training .template-box label{font-size:13px!important}
+.page-training .new-template{min-height:46px;border-radius:9px!important}.page-training .exercise{border-radius:10px!important;border-left:3px solid var(--ath-violet)!important;background:#090d12!important}.page-training .exercise-name{font-size:15px!important}.page-training .exercise-target{font-size:11px!important}
+.page-training .set label{font-size:11px!important}.page-training .set-num{font-size:12px!important}.page-training .add-set{font-size:13px!important}.page-training .session{border-radius:10px!important}.page-training .session-meta{font-size:12px!important}
+.page-training dialog{border-radius:14px!important;background:#0e131a!important}
+
+/* First run */
+.setup-mode{background:radial-gradient(circle at 70% 0,rgba(213,255,63,.09),transparent 31%),var(--ath-bg)!important}.setup-mode .shell{padding-top:22px!important}
+.setup-mode .onboard-card{position:relative;border-radius:18px!important;border-color:#34402c!important;overflow:hidden;background:linear-gradient(145deg,#121820,#090d12)!important}
+.setup-mode .onboard-card::before{content:"PROFILE / 01";position:absolute;right:20px;top:20px;color:#596358;font:800 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em}
+.setup-mode .onboard-mark{border-radius:10px 10px 10px 2px!important;background:var(--ath-signal)!important}.setup-mode .onboard-card h1{font-family:"Arial Narrow",Impact,sans-serif;text-transform:uppercase;font-size:clamp(2.7rem,8vw,4.8rem)!important;letter-spacing:-.035em!important}.setup-mode .step{border-radius:9px!important}.setup-mode .step span{font-size:14px!important}
+
+@media(max-width:800px){
+  .app-topbar{height:62px}.app-topbar-inner{padding:0 14px}.app-nav{display:none}.app-athlete{margin-left:auto;border:0;background:transparent;padding:7px 0}.app-athlete-copy span{display:none}
+  .app-mobile-nav{position:fixed;z-index:70;display:grid;grid-template-columns:repeat(3,1fr);left:10px;right:10px;bottom:10px;height:66px;padding:6px;background:rgba(10,13,18,.94);border:1px solid var(--ath-line);border-radius:14px;backdrop-filter:blur(20px);box-shadow:0 16px 45px #000b}
+  .app-mobile-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--ath-muted);text-decoration:none;font-size:11px;font-weight:800;border-radius:9px}.app-mobile-nav a.active{background:#1a211c;color:var(--ath-signal)}
+  body.has-app-shell .shell{padding:15px 12px 96px!important}.page-home .hero{grid-template-columns:1fr}.page-home .hero h1{font-size:3.6rem!important}.athlete-strip{grid-column:1;grid-row:auto}.page-nutrition .tabs{top:68px!important}.page-nutrition .shell>header h1{font-size:23px!important}
+}
+@media(max-width:520px){
+  .app-logo-copy span{display:none}.app-athlete-copy b{font-size:12px}.page-home .hero h1{font-size:3rem!important}.athlete-strip-item{padding:13px;min-height:78px}.page-home .card{min-height:132px!important}
+  .page-training .set{grid-template-columns:24px repeat(3,1fr) 28px!important;gap:5px!important}.page-training .set input{padding:8px 5px!important}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
