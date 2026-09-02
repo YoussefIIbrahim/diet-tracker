@@ -40,6 +40,29 @@ function totals(){return chosen.reduce((a,x)=>{const f=foodBy(x.id),m=x.grams/10
 function renderCatalog(){const cats=['All','Protein','Carb','Fat','Veg'];$('#categoryChips').innerHTML=cats.map(c=>'<button class="chip '+(c===category?'active':'')+'" data-cat="'+c+'">'+c+'</button>').join('');all('[data-cat]').forEach(b=>b.onclick=()=>{category=b.dataset.cat;renderCatalog()});const q=$('#foodSearch').value.toLowerCase();$('#foodCatalog').innerHTML=foods.filter(f=>(category==='All'||f.cat===category)&&f.name.toLowerCase().includes(q)).map(f=>'<button class="food" draggable="true" data-food="'+f.id+'"><span><b>'+f.name+'</b><small>'+f.cat+' · '+f.kcal+' kcal / 100 g</small></span><span class="plus">+</span></button>').join('');all('[data-food]').forEach(b=>{b.onclick=()=>addFood(b.dataset.food);b.ondragstart=e=>e.dataTransfer.setData('text/plain',b.dataset.food)})}
 function addFood(id){if(chosen.some(x=>x.id===id)){toast('Already added');return}const f=foodBy(id);chosen.push({id,grams:Math.round((f.min+f.max)/2/f.step)*f.step,locked:false});balance(id);renderBuilder()}
 function totalsFor(items){return items.reduce((a,x)=>{const f=foodBy(x.id),m=x.grams/100;a.k+=f.kcal*m;a.p+=f.p*m;a.c+=f.c*m;a.f+=f.f*m;return a},{k:0,p:0,c:0,f:0})}
+const portionCaps={
+ breakfast:{Protein:350,Carb:450,Fat:120,Veg:600,total:1200},
+ morning:{Protein:350,Carb:750,Fat:100,Veg:400,total:900},
+ lunch:{Protein:350,Carb:550,Fat:150,Veg:900,total:1500},
+ anti:{Protein:300,Carb:400,Fat:120,Veg:500,total:1000},
+ dinner:{Protein:350,Carb:650,Fat:150,Veg:900,total:1600},
+ late:{Protein:300,Carb:500,Fat:100,Veg:400,total:850}
+};
+let balanceMessage='';
+function gramTotals(items){
+ return items.reduce((a,x)=>{a[x.cat||foodBy(x.id).cat]+=x.grams;a.total+=x.grams;return a},{Protein:0,Carb:0,Fat:0,Veg:0,total:0});
+}
+function mealValidation(items=chosen){
+ const p=profiles[$('#mealSlot').value],t=totalsFor(items),g=gramTotals(items),caps=portionCaps[$('#mealSlot').value],issues=[];
+ const names={k:'calories',p:'protein',c:'carbs',f:'fat'};
+ for(const key of ['k','p','c','f']){
+  if(t[key]<p[key][0])issues.push(names[key]+' too low');
+  if(t[key]>p[key][1])issues.push(names[key]+' too high');
+ }
+ for(const key of ['Protein','Carb','Fat','Veg'])if(g[key]>caps[key])issues.push(key.toLowerCase()+' portions exceed '+caps[key]+' g');
+ if(g.total>caps.total)issues.push('meal exceeds '+caps.total+' g total');
+ return {valid:items.length>0&&issues.length===0,issues,t,g,caps};
+}
 function mealScore(t,p){
  let outside=0,center=0;
  for(const key of ['k','p','c','f']){
@@ -48,38 +71,50 @@ function mealScore(t,p){
   outside+=Math.pow(miss/width,2);
   center+=Math.pow((t[key]-mid)/width,2);
  }
- return outside*10000+center;
+ const g=gramTotals(t.items||[]),caps=portionCaps[$('#mealSlot').value];
+ let portionPenalty=0;
+ for(const key of ['Protein','Carb','Fat','Veg','total'])if(g[key]>caps[key])portionPenalty+=Math.pow((g[key]-caps[key])/Math.max(caps[key],1),2);
+ return outside*10000+portionPenalty*10000+center;
 }
 function optimizeMeal(seed,fixedId){
  const p=profiles[$('#mealSlot').value],items=seed.map(x=>({...x}));
  for(let turn=0;turn<3000;turn++){
-  const base=mealScore(totalsFor(items),p);let best=base,bestItem=null,bestGrams=0;
+  const current=totalsFor(items);current.items=items;const base=mealScore(current,p);let best=base,bestItem=null,bestGrams=0;
   for(const item of items){
    if(item.locked||item.id===fixedId)continue;
    const f=foodBy(item.id);
    for(const dir of [-1,1]){
     const grams=item.grams+dir*f.step;
     if(grams<f.min||grams>f.max)continue;
-    item.grams=grams;const score=mealScore(totalsFor(items),p);item.grams=grams-dir*f.step;
+    item.grams=grams;const candidate=totalsFor(items);candidate.items=items;const score=mealScore(candidate,p);item.grams=grams-dir*f.step;
     if(score<best-1e-9){best=score;bestItem=item;bestGrams=grams}
    }
   }
   if(!bestItem)break;
   bestItem.grams=bestGrams;
  }
- return {items,score:mealScore(totalsFor(items),p)};
+ const final=totalsFor(items);final.items=items;return {items,score:mealScore(final,p)};
 }
 function balance(changed){
- if(!chosen.length)return false;
+ if(!chosen.length){balanceMessage='Add at least one ingredient first.';return {ok:false,changed:false,message:balanceMessage}}
+ const before=chosen.map(x=>x.id+':'+x.grams).join('|');
  const seeds=[chosen.map(x=>({...x}))];
  if(!changed){
-  seeds.push(chosen.map(x=>({...x,grams:foodBy(x.id).min})));
-  seeds.push(chosen.map(x=>{const f=foodBy(x.id);return {...x,grams:Math.round((f.min+f.max)/2/f.step)*f.step}}));
+  seeds.push(chosen.map(x=>({...x,grams:x.locked?x.grams:foodBy(x.id).min})));
+  seeds.push(chosen.map(x=>{const f=foodBy(x.id);return {...x,grams:x.locked?x.grams:Math.round((f.min+f.max)/2/f.step)*f.step}}));
  }
  const best=seeds.map(s=>optimizeMeal(s,changed)).sort((a,b)=>a.score-b.score)[0];
  chosen=best.items;
- const p=profiles[$('#mealSlot').value],t=totals();
- return ['k','p','c','f'].every(k=>within(t[k],p[k]));
+ const result=mealValidation(),didChange=before!==chosen.map(x=>x.id+':'+x.grams).join('|');
+ if(result.valid)balanceMessage=didChange?'Meal balanced successfully.':'Meal is already balanced.';
+ else{
+  const locked=chosen.filter(x=>x.locked),lockedTotals=totalsFor(locked),p=profiles[$('#mealSlot').value],hard=[];
+  for(const key of ['k','p','c','f'])if(lockedTotals[key]>p[key][1])hard.push({k:'calories',p:'protein',c:'carbs',f:'fat'}[key]);
+  balanceMessage=hard.length?'Cannot balance: locked ingredients already exceed '+hard.join(', ')+'. Unlock or reduce them.':(!didChange&&locked.length?'Cannot balance with the locked portions. Unlock an ingredient or change the selection.':'No valid balance exists with these ingredients and portion ranges: '+result.issues.join(', ')+'.');
+ }
+ return {ok:result.valid,changed:didChange,message:balanceMessage};
 }
-function renderBuilder(){const p=profiles[$('#mealSlot').value];$('#pickedFoods').innerHTML=chosen.length?chosen.map(x=>{const f=foodBy(x.id);return '<div class="ingredient"><div class="ingtop"><div><b>'+f.name+'</b><div class="hint">'+f.cat+' · '+round(f.kcal*x.grams/100,0)+' kcal</div></div><span class="grams">'+x.grams+' g</span></div><div class="slider"><input type="range" min="'+f.min+'" max="'+f.max+'" step="'+f.step+'" value="'+x.grams+'" data-slider="'+x.id+'"><button class="icon '+(x.locked?'locked':'')+'" data-lock="'+x.id+'">'+(x.locked?'Locked':'Lock')+'</button><button class="icon" data-remove="'+x.id+'">×</button></div></div>'}).join(''):'<div class="empty">Choose ingredients from the library.</div>';all('[data-slider]').forEach(s=>s.oninput=()=>{const x=chosen.find(v=>v.id===s.dataset.slider);x.grams=num(s.value);balance(x.id);renderBuilder()});all('[data-lock]').forEach(b=>b.onclick=()=>{const x=chosen.find(v=>v.id===b.dataset.lock);x.locked=!x.locked;renderBuilder()});all('[data-remove]').forEach(b=>b.onclick=()=>{chosen=chosen.filter(x=>x.id!==b.dataset.remove);balance();renderBuilder()});const t=totals(),vals={K:t.k,P:t.p,C:t.c,F:t.f},ranges={K:p.k,P:p.p,C:p.c,F:p.f},labels={K:'Calories',P:'Protein',C:'Carbs',F:'Fat'};for(const k of Object.keys(vals)){const e=$('#m'+k),ok=within(vals[k],ranges[k]);e.classList.toggle('good',ok);e.classList.toggle('warn',!ok&&chosen.length>0)}$('#sumKcal').textContent=round(t.k,0);$('#sumP').textContent=round(t.p)+' g';$('#sumC').textContent=round(t.c)+' g';$('#sumF').textContent=round(t.f)+' g';$('#checks').innerHTML=Object.keys(vals).map(k=>'<span class="check '+(within(vals[k],ranges[k])?'ok':'')+'">'+labels[k]+' '+ranges[k][0]+'–'+ranges[k][1]+(k==='K'?' kcal':' g')+'</span>').join('');const valid=chosen.length&&Object.keys(vals).every(k=>within(vals[k],ranges[k]));$('#addMealToLog').disabled=!valid;$('#balanceNote').textContent=!chosen.length?'Choose ingredients to begin.':valid?'Balanced for '+p.name+'. Ready to log.':'Adjust until every target is green. Lock ingredients that must stay fixed.'}$('#foodSearch').oninput=renderCatalog;$('#mealSlot').onchange=()=>{balance();renderBuilder()};$('#autoBalance').onclick=()=>{balance();renderBuilder();toast('Meal rebalanced')};$('#clearMeal').onclick=()=>{chosen=[];renderBuilder()};const dz=$('#dropzone');dz.ondragover=e=>{e.preventDefault();dz.classList.add('over')};dz.ondragleave=()=>dz.classList.remove('over');dz.ondrop=e=>{e.preventDefault();dz.classList.remove('over');addFood(e.dataTransfer.getData('text/plain'))};$('#addMealToLog').onclick=()=>{const t=totals(),date=today(),p=profiles[$('#mealSlot').value];let e=state.nutritionEntries.find(x=>x.date===date);if(!e){e={date,mode:'',calories:0,protein:0,carbs:0,fats:0,water:0,takeaway:'',hunger:0,antiBinge:'',notes:'',meals:[]};state.nutritionEntries.push(e)}e.meals=Array.isArray(e.meals)?e.meals:[];e.meals.push({id:Date.now(),slot:$('#mealSlot').value,name:p.name,items:chosen.map(x=>({...x,name:foodBy(x.id).name})),totals:{calories:round(t.k,0),protein:round(t.p),carbs:round(t.c),fats:round(t.f)}});e.calories=round(num(e.calories)+t.k,0);e.protein=round(num(e.protein)+t.p);e.carbs=round(num(e.carbs)+t.c);e.fats=round(num(e.fats)+t.f);save();chosen=[];renderBuilder();renderLog();toast('Meal added to today')};renderCatalog();renderBuilder();blank();renderLog()})();
+function renderBuilder(){const p=profiles[$('#mealSlot').value];$('#pickedFoods').innerHTML=chosen.length?chosen.map(x=>{const f=foodBy(x.id);return '<div class="ingredient"><div class="ingtop"><div><b>'+f.name+'</b><div class="hint">'+f.cat+' · '+round(f.kcal*x.grams/100,0)+' kcal</div></div><span class="grams">'+x.grams+' g</span></div><div class="slider"><input type="range" min="'+f.min+'" max="'+f.max+'" step="'+f.step+'" value="'+x.grams+'" data-slider="'+x.id+'"><button class="icon '+(x.locked?'locked':'')+'" data-lock="'+x.id+'">'+(x.locked?'Locked':'Lock')+'</button><button class="icon" data-remove="'+x.id+'">×</button></div></div>'}).join(''):'<div class="empty">Choose ingredients from the library.</div>';all('[data-slider]').forEach(s=>s.oninput=()=>{const x=chosen.find(v=>v.id===s.dataset.slider);x.grams=num(s.value);balance(x.id);renderBuilder()});all('[data-lock]').forEach(b=>b.onclick=()=>{const x=chosen.find(v=>v.id===b.dataset.lock);x.locked=!x.locked;balanceMessage='';renderBuilder()});all('[data-remove]').forEach(b=>b.onclick=()=>{chosen=chosen.filter(x=>x.id!==b.dataset.remove);balance();renderBuilder()});const t=totals(),vals={K:t.k,P:t.p,C:t.c,F:t.f},ranges={K:p.k,P:p.p,C:p.c,F:p.f},labels={K:'Calories',P:'Protein',C:'Carbs',F:'Fat'};for(const k of Object.keys(vals)){const e=$('#m'+k),ok=within(vals[k],ranges[k]);e.classList.toggle('good',ok);e.classList.toggle('warn',!ok&&chosen.length>0)}$('#sumKcal').textContent=round(t.k,0);$('#sumP').textContent=round(t.p)+' g';$('#sumC').textContent=round(t.c)+' g';$('#sumF').textContent=round(t.f)+' g';$('#checks').innerHTML=Object.keys(vals).map(k=>'<span class="check '+(within(vals[k],ranges[k])?'ok':'')+'">'+labels[k]+' '+ranges[k][0]+'–'+ranges[k][1]+(k==='K'?' kcal':' g')+'</span>').join('');const validation=mealValidation(),existing=state.nutritionEntries.find(x=>x.date===today()),projected=round(num(existing?.calories)+t.k,0),dayOk=projected<=2400;$('#checks').innerHTML+='<span class="check '+(validation.g.total<=validation.caps.total?'ok':'')+'">Meal '+Math.round(validation.g.total)+' / '+validation.caps.total+' g</span>'+(chosen.length?'<span class="check '+(dayOk?'ok':'')+'">Day after meal '+projected+' / 2400 kcal</span>':'');$('#addMealToLog').disabled=!validation.valid||!dayOk;if(!chosen.length)$('#balanceNote').textContent='Choose ingredients to begin.';else if(!validation.valid)$('#balanceNote').textContent=balanceMessage||('Cannot save: '+validation.issues.join(', ')+'.');else if(!dayOk)$('#balanceNote').textContent='Cannot add this meal: it would put today at '+projected+' kcal, above the 2,400 kcal limit.';else $('#balanceNote').textContent=balanceMessage||('Balanced for '+p.name+'. Ready to log.')}
+$('#foodSearch').oninput=renderCatalog;$('#mealSlot').onchange=()=>{balanceMessage='';balance();renderBuilder()};$('#autoBalance').onclick=()=>{const result=balance();renderBuilder();toast(result.message)};$('#clearMeal').onclick=()=>{chosen=[];balanceMessage='';renderBuilder()};const dz=$('#dropzone');dz.ondragover=e=>{e.preventDefault();dz.classList.add('over')};dz.ondragleave=()=>dz.classList.remove('over');dz.ondrop=e=>{e.preventDefault();dz.classList.remove('over');addFood(e.dataTransfer.getData('text/plain'))};$('#addMealToLog').onclick=()=>{const t=totals(),date=today(),p=profiles[$('#mealSlot').value],validation=mealValidation(),existing=state.nutritionEntries.find(x=>x.date===date);if(!validation.valid){toast('Meal is outside its limits');return}if(num(existing?.calories)+t.k>2400){toast('Daily calorie limit would be exceeded');return}let e=existing;if(!e){e={date,mode:'',calories:0,protein:0,carbs:0,fats:0,water:0,takeaway:'',hunger:0,antiBinge:'',notes:'',meals:[]};state.nutritionEntries.push(e)}e.meals=Array.isArray(e.meals)?e.meals:[];e.meals.push({id:Date.now(),slot:$('#mealSlot').value,name:p.name,items:chosen.map(x=>({...x,name:foodBy(x.id).name})),totals:{calories:round(t.k,0),protein:round(t.p),carbs:round(t.c),fats:round(t.f)}});e.calories=round(num(e.calories)+t.k,0);e.protein=round(num(e.protein)+t.p);e.carbs=round(num(e.carbs)+t.c);e.fats=round(num(e.fats)+t.f);save();chosen=[];balanceMessage='';renderBuilder();renderLog();toast('Meal added to today')};
+renderCatalog();renderBuilder();blank();renderLog()})();
 </script></body></html>
