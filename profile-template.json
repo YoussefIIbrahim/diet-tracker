@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "kind": "form-profile",
+  "profile": {
+    "id": "replace-with-a-stable-id",
+    "displayName": "Your name",
+    "sex": null,
+    "age": null,
+    "heightCm": null,
+    "startingWeightKg": null,
+    "startingWaistCm": null,
+    "estimatedBodyFatPercent": null
+  },
+  "goals": {
+    "primary": "",
+    "targetWeightKg": null,
+    "targetBodyFatPercent": null,
+    "firstWeightMilestoneKg": null,
+    "checkpointDate": null,
+    "notes": []
+  },
+  "nutritionPlan": {
+    "name": "My nutrition plan",
+    "targets": {
+      "calories": { "min": null, "max": null },
+      "proteinG": { "min": null, "max": null },
+      "carbsG": { "min": null, "max": null },
+      "fatG": { "min": null, "max": null },
+      "waterL": { "min": null, "max": null }
+    },
+    "mealTargets": {
+      "breakfast": { "label": "Breakfast", "calories": { "min": null, "max": null }, "proteinG": { "min": null, "max": null }, "carbsG": { "min": null, "max": null }, "fatG": { "min": null, "max": null } },
+      "morning": { "label": "Morning snack", "calories": { "min": null, "max": null }, "proteinG": { "min": null, "max": null }, "carbsG": { "min": null, "max": null }, "fatG": { "min": null, "max": null } },
+      "lunch": { "label": "Lunch", "calories": { "min": null, "max": null }, "proteinG": { "min": null, "max": null }, "carbsG": { "min": null, "max": null }, "fatG": { "min": null, "max": null } },
+      "anti": { "label": "Afternoon meal", "calories": { "min": null, "max": null }, "proteinG": { "min": null, "max": null }, "carbsG": { "min": null, "max": null }, "fatG": { "min": null, "max": null } },
+      "dinner": { "label": "Dinner", "calories": { "min": null, "max": null }, "proteinG": { "min": null, "max": null }, "carbsG": { "min": null, "max": null }, "fatG": { "min": null, "max": null } },
+      "late": { "label": "Late snack", "calories": { "min": null, "max": null }, "proteinG": { "min": null, "max": null }, "carbsG": { "min": null, "max": null }, "fatG": { "min": null, "max": null } }
+    },
+    "mealOptions": [],
+    "rules": [],
+    "preferences": {
+      "favoriteFoods": [],
+      "dislikedFoods": [],
+      "preferredShops": [],
+      "notes": []
+    }
+  },
+  "trainingPlan": {
+    "name": "My training plan",
+    "weeklySchedule": [],
+    "templates": [],
+    "progressionRules": [],
+    "recoveryRules": []
+  }
+}
