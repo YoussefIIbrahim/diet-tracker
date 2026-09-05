@@ -78,7 +78,7 @@
 function toast(s){const e=$('#toast');e.textContent=s;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1600)}
 const mealSlotOrder=['breakfast','morning','lunch','anti','dinner','late'];
 const slotFallback={breakfast:'Breakfast',morning:'Morning snack',lunch:'Lunch',anti:'Afternoon meal',dinner:'Dinner',late:'Late snack'};
-let activeDate=today(),selectedTakeaway='shawarma_toum';
+let activeDate=today();
 const dayTargets=state.profile.nutritionPlan?.targets||{};
 function ensureEntry(date){
  let e=state.nutritionEntries.find(x=>x.date===date);
