@@ -15,41 +15,203 @@
     "primary": "",
     "targetWeightKg": null,
     "targetBodyFatPercent": null,
-    "firstWeightMilestoneKg": null,
-    "checkpointDate": null,
-    "notes": []
+    "milestones": []
+  },
+  "motivation": {
+    "tone": "",
+    "messages": []
   },
   "nutritionPlan": {
     "name": "My nutrition plan",
+    "guidanceOnly": true,
     "targets": {
-      "calories": { "min": null, "max": null },
-      "proteinG": { "min": null, "max": null },
-      "carbsG": { "min": null, "max": null },
-      "fatG": { "min": null, "max": null },
-      "waterL": { "min": null, "max": null }
+      "calories": {
+        "min": null,
+        "max": null
+      },
+      "proteinG": {
+        "min": null,
+        "max": null
+      },
+      "carbsG": {
+        "min": null,
+        "max": null
+      },
+      "fatG": {
+        "min": null,
+        "max": null
+      },
+      "waterL": {
+        "min": null,
+        "max": null
+      }
     },
+    "targetNote": "",
     "mealTargets": {
-      "breakfast": { "label": "Breakfast", "calories": { "min": null, "max": null }, "proteinG": { "min": null, "max": null }, "carbsG": { "min": null, "max": null }, "fatG": { "min": null, "max": null } },
-      "morning": { "label": "Morning snack", "calories": { "min": null, "max": null }, "proteinG": { "min": null, "max": null }, "carbsG": { "min": null, "max": null }, "fatG": { "min": null, "max": null } },
-      "lunch": { "label": "Lunch", "calories": { "min": null, "max": null }, "proteinG": { "min": null, "max": null }, "carbsG": { "min": null, "max": null }, "fatG": { "min": null, "max": null } },
-      "anti": { "label": "Afternoon meal", "calories": { "min": null, "max": null }, "proteinG": { "min": null, "max": null }, "carbsG": { "min": null, "max": null }, "fatG": { "min": null, "max": null } },
-      "dinner": { "label": "Dinner", "calories": { "min": null, "max": null }, "proteinG": { "min": null, "max": null }, "carbsG": { "min": null, "max": null }, "fatG": { "min": null, "max": null } },
-      "late": { "label": "Late snack", "calories": { "min": null, "max": null }, "proteinG": { "min": null, "max": null }, "carbsG": { "min": null, "max": null }, "fatG": { "min": null, "max": null } }
+      "breakfast": {
+        "label": "Breakfast",
+        "time": "",
+        "calories": {
+          "min": null,
+          "max": null
+        },
+        "proteinG": {
+          "min": null,
+          "max": null
+        },
+        "carbsG": {
+          "min": null,
+          "max": null
+        },
+        "fatG": {
+          "min": null,
+          "max": null
+        }
+      },
+      "morning": {
+        "label": "Morning snack",
+        "time": "Optional",
+        "calories": {
+          "min": null,
+          "max": null
+        },
+        "proteinG": {
+          "min": null,
+          "max": null
+        },
+        "carbsG": {
+          "min": null,
+          "max": null
+        },
+        "fatG": {
+          "min": null,
+          "max": null
+        }
+      },
+      "lunch": {
+        "label": "Lunch",
+        "time": "",
+        "calories": {
+          "min": null,
+          "max": null
+        },
+        "proteinG": {
+          "min": null,
+          "max": null
+        },
+        "carbsG": {
+          "min": null,
+          "max": null
+        },
+        "fatG": {
+          "min": null,
+          "max": null
+        }
+      },
+      "anti": {
+        "label": "Afternoon meal",
+        "time": "Optional",
+        "calories": {
+          "min": null,
+          "max": null
+        },
+        "proteinG": {
+          "min": null,
+          "max": null
+        },
+        "carbsG": {
+          "min": null,
+          "max": null
+        },
+        "fatG": {
+          "min": null,
+          "max": null
+        }
+      },
+      "dinner": {
+        "label": "Dinner",
+        "time": "",
+        "calories": {
+          "min": null,
+          "max": null
+        },
+        "proteinG": {
+          "min": null,
+          "max": null
+        },
+        "carbsG": {
+          "min": null,
+          "max": null
+        },
+        "fatG": {
+          "min": null,
+          "max": null
+        }
+      },
+      "late": {
+        "label": "Late snack",
+        "time": "Optional",
+        "calories": {
+          "min": null,
+          "max": null
+        },
+        "proteinG": {
+          "min": null,
+          "max": null
+        },
+        "carbsG": {
+          "min": null,
+          "max": null
+        },
+        "fatG": {
+          "min": null,
+          "max": null
+        }
+      }
     },
-    "mealOptions": [],
-    "rules": [],
+    "mealOptions": [
+      {
+        "slot": "breakfast",
+        "name": "Example meal",
+        "ingredients": [
+          "ingredient and portion",
+          "ingredient and portion"
+        ]
+      }
+    ],
     "preferences": {
-      "favoriteFoods": [],
+      "favoriteProteins": [],
+      "favoriteCarbs": [],
+      "favoriteProduce": [],
+      "favoriteDairy": [],
+      "takeaways": [],
       "dislikedFoods": [],
-      "preferredShops": [],
-      "notes": []
-    }
+      "preferredShops": []
+    },
+    "rules": [],
+    "references": []
   },
   "trainingPlan": {
     "name": "My training plan",
+    "guidanceOnly": false,
     "weeklySchedule": [],
-    "templates": [],
+    "templates": [
+      {
+        "name": "Example workout",
+        "exercises": [
+          {
+            "name": "Exercise",
+            "sets": 2,
+            "reps": "8–12",
+            "rir": "2–3",
+            "metric": "reps",
+            "unit": "reps"
+          }
+        ]
+      }
+    ],
     "progressionRules": [],
-    "recoveryRules": []
+    "recoveryRules": [],
+    "references": []
   }
 }
