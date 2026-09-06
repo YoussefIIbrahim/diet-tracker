@@ -18,7 +18,12 @@ const header=document.createElement('header');header.className='app-header';head
 const mobile=document.createElement('nav');mobile.className='app-mobile-nav';mobile.setAttribute('aria-label','Primary');mobile.innerHTML='<div class="nav-glider" aria-hidden="true"></div>'+nav;
 document.body.prepend(header);document.body.append(mobile);
 const veil=document.createElement('div');veil.className='page-veil';veil.setAttribute('aria-hidden','true');document.body.append(veil);
-document.addEventListener('click',e=>{const link=e.target.closest('.app-nav a,.app-mobile-nav a');if(!link||reduced?.matches||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();const r=link.getBoundingClientRect();veil.style.setProperty('--veil-x',r.left+r.width/2+'px');veil.style.setProperty('--veil-y',r.top+r.height/2+'px');document.body.classList.add('page-leaving');setTimeout(()=>location.href=link.href,390)});
+let transitionTimer=0,transitionFailsafe=0,isTransitioning=false;
+function resetPageTransition(){clearTimeout(transitionTimer);clearTimeout(transitionFailsafe);transitionTimer=transitionFailsafe=0;isTransitioning=false;document.body.classList.remove('page-leaving');veil.style.removeProperty('--veil-x');veil.style.removeProperty('--veil-y')}
+addEventListener('pageshow',()=>requestAnimationFrame(resetPageTransition));
+addEventListener('pagehide',resetPageTransition);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')resetPageTransition()});
+document.addEventListener('click',e=>{const link=e.target.closest('.app-nav a,.app-mobile-nav a');if(!link||isTransitioning||reduced?.matches||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;const target=new URL(link.href,location.href);if(target.href===location.href)return;e.preventDefault();isTransitioning=true;const r=link.getBoundingClientRect();veil.style.setProperty('--veil-x',r.left+r.width/2+'px');veil.style.setProperty('--veil-y',r.top+r.height/2+'px');document.body.classList.add('page-leaving');transitionTimer=setTimeout(()=>location.assign(target.href),320);transitionFailsafe=setTimeout(resetPageTransition,1600)});
 document.querySelectorAll('nav.nav,.top>.brand,.top>.status').forEach(x=>x.remove());
 requestAnimationFrame(()=>{const active=mobile.querySelector('a.active');if(active){const box=active.getBoundingClientRect(),parent=mobile.getBoundingClientRect();mobile.style.setProperty('--active-x',box.left-parent.left+'px');mobile.style.setProperty('--active-w',box.width+'px')}});
 const reveal=[...document.querySelectorAll('main header:not(.app-header),.daily-spark,.overview-grid>*,.tabs,.layout>*,.training-layout>*,.progress-grid>*,.view.active>*,.settings-panel,.card,.panel')].filter((x,i,a)=>a.indexOf(x)===i);
