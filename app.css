@@ -512,3 +512,26 @@ body.page-leaving .page-veil{opacity:1;clip-path:circle(150% at var(--veil-x,50%
  .app-mobile-nav a.active svg,.dock-minimized .app-mobile-nav a.active svg{transform:translateY(-1px)}
  .meal-composing .app-mobile-nav{opacity:1;transform:translateX(-50%)!important}
 }
+
+/* v13 · navigation moves into existing iPhone top bar */
+@media(max-width:760px){
+ :root{--header-h:62px}
+ .app-mobile-nav{display:none!important}
+ .app-header{inset:8px 10px auto;height:54px;width:auto;border-radius:18px;transform:none!important;opacity:1!important}
+ .scrolling-down .app-header{transform:none!important;opacity:1!important}
+ .app-header-inner{height:100%;padding:5px 7px;display:grid;grid-template-columns:42px minmax(0,1fr) 42px;gap:6px;align-items:center}
+ .app-wordmark{width:42px;height:42px;font-size:0;justify-content:center}
+ .app-wordmark>span{width:36px;height:36px;border-radius:12px}
+ .app-wordmark>b{display:none}
+ .app-header .app-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin:0;padding:3px;border:0;border-radius:14px;background:rgba(5,8,6,.3)}
+ .app-header .app-nav a{height:40px;min-height:40px;padding:0;display:grid;place-items:center;border-radius:11px;font-size:0;background:transparent;box-shadow:none}
+ .app-header .app-nav a span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+ .app-header .app-nav a svg{width:19px;height:19px}
+ .app-header .app-nav a.active{background:var(--brand);color:#091006;box-shadow:0 5px 16px rgba(200,244,93,.16)}
+ .profile-chip{width:42px;height:42px;margin:0;justify-self:end;justify-content:center;min-height:42px}
+ .profile-chip>span{width:36px;height:36px;border-radius:12px;font-size:.66rem}
+ .has-app-shell .shell{padding-top:78px;padding-bottom:calc(34px + env(safe-area-inset-bottom))}
+ .has-app-shell .toast{bottom:calc(18px + env(safe-area-inset-bottom))!important}.has-app-shell .tabs{top:70px!important}
+ .page-food .floating-meal-tray.has-items,.page-food .floating-meal-tray[open]{bottom:calc(10px + env(safe-area-inset-bottom))}
+ .session-live.page-train .shell{padding:72px 10px calc(24px + env(safe-area-inset-bottom))!important}
+}
