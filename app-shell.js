@@ -17,10 +17,7 @@ const name=state.profile.profile?.displayName||'Athlete',parts=name.trim().split
 const header=document.createElement('header');header.className='app-header';header.innerHTML='<div class="app-header-inner"><a class="app-wordmark" href="index.html" aria-label="Form home"><span>F</span><b>FORM</b></a><nav class="app-nav" aria-label="Primary">'+nav+'</nav><a class="profile-chip" href="index.html#settings" aria-label="Profile and backup"><span>'+initial+'</span><b>'+escapeHtml(name)+'</b></a></div>';
 const mobile=document.createElement('nav');mobile.className='app-mobile-nav';mobile.setAttribute('aria-label','Primary');mobile.innerHTML='<div class="nav-glider" aria-hidden="true"></div>'+nav;
 document.body.prepend(header);document.body.append(mobile);
-function setDockExpanded(expanded){document.body.classList.toggle('dock-minimized',!expanded);mobile.setAttribute('aria-expanded',String(expanded))}
-if(matchMedia('(max-width:760px)').matches)setDockExpanded(false);
-mobile.addEventListener('click',e=>{const collapsed=document.body.classList.contains('dock-minimized'),link=e.target.closest('a');if(collapsed){e.preventDefault();e.stopPropagation();setDockExpanded(true);return}if(link?.classList.contains('active')){e.preventDefault();e.stopPropagation();setDockExpanded(false)}},true);
-document.addEventListener('pointerdown',e=>{if(matchMedia('(max-width:760px)').matches&&!mobile.contains(e.target)&&!document.body.classList.contains('dock-minimized'))setDockExpanded(false)});
+mobile.setAttribute('aria-label','Primary navigation');
 const veil=document.createElement('div');veil.className='page-veil';veil.setAttribute('aria-hidden','true');document.body.append(veil);
 let transitionTimer=0,transitionFailsafe=0,isTransitioning=false;
 function resetPageTransition(){clearTimeout(transitionTimer);clearTimeout(transitionFailsafe);transitionTimer=transitionFailsafe=0;isTransitioning=false;document.body.classList.remove('page-leaving');veil.style.removeProperty('--veil-x');veil.style.removeProperty('--veil-y')}
