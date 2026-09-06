@@ -495,3 +495,20 @@ body.page-leaving .page-veil{opacity:1;clip-path:circle(150% at var(--veil-x,50%
  .app-mobile-nav[aria-expanded="true"]{transform:translateY(0)}
 }
 @media(prefers-reduced-motion:reduce){.dock-minimized .app-mobile-nav:after{animation:none}}
+
+/* v12 · one-state navigation */
+@media(max-width:760px){
+ .app-mobile-nav,.dock-minimized .app-mobile-nav{
+  left:50%;right:auto;width:min(340px,calc(100% - 24px));bottom:calc(8px + env(safe-area-inset-bottom));
+  transform:translateX(-50%)!important;display:grid;grid-template-columns:repeat(4,1fr);padding:4px;
+  border-radius:19px;cursor:default;opacity:1!important;
+ }
+ .app-mobile-nav:after,.dock-minimized .app-mobile-nav:after{display:none!important;content:none!important}
+ .app-mobile-nav .nav-glider,.dock-minimized .app-mobile-nav .nav-glider{display:block;opacity:1;transform:none}
+ .app-mobile-nav a,.dock-minimized .app-mobile-nav a{display:flex!important;width:auto!important;min-width:0!important;min-height:46px;padding:5px 2px;border-radius:15px}
+ .app-mobile-nav a span,.dock-minimized .app-mobile-nav a.active span{display:block;max-height:none;opacity:1;overflow:visible;font-size:.6rem}
+ .app-mobile-nav a.active,.dock-minimized .app-mobile-nav a.active{color:#0a0d0b;background:transparent!important;box-shadow:none!important}
+ .app-mobile-nav a.active:after,.dock-minimized .app-mobile-nav a.active:after{display:none;content:none}
+ .app-mobile-nav a.active svg,.dock-minimized .app-mobile-nav a.active svg{transform:translateY(-1px)}
+ .meal-composing .app-mobile-nav{opacity:1;transform:translateX(-50%)!important}
+}
