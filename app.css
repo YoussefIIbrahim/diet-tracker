@@ -483,3 +483,15 @@ body.page-leaving .page-veil{opacity:1;clip-path:circle(150% at var(--veil-x,50%
 }
 
 @media(max-width:760px){.page-food .floating-meal-tray:not(.has-items){position:relative;left:auto;right:auto;bottom:auto;margin-top:14px}.page-food .floating-meal-tray.has-items{animation:sheet-in 320ms var(--ease-spring)}}
+
+/* v11 · deterministic compact dock */
+@keyframes dock-breathe{0%,100%{opacity:.46}50%{opacity:.9}}
+@media(max-width:760px){
+ .dock-minimized .app-mobile-nav{left:calc(50% - 36px);width:72px;cursor:pointer}
+ .dock-minimized .app-mobile-nav:after{content:"•••";position:absolute;right:7px;bottom:5px;color:#0b0e0a;font-size:.48rem;letter-spacing:-.04em;z-index:3;animation:dock-breathe 2.2s ease-in-out infinite}
+ .dock-minimized .app-mobile-nav a.active{width:60px;min-width:60px}
+ .dock-minimized .app-mobile-nav a.active:after{content:"Open";position:absolute;inset:auto 0 4px;text-align:center;font-size:.44rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:rgba(9,13,8,.62)}
+ .dock-minimized .app-mobile-nav a.active svg{transform:translateY(-4px)}
+ .app-mobile-nav[aria-expanded="true"]{transform:translateY(0)}
+}
+@media(prefers-reduced-motion:reduce){.dock-minimized .app-mobile-nav:after{animation:none}}
