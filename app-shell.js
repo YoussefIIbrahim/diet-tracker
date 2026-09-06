@@ -13,7 +13,7 @@ const icon={
 };
 const links=[['today','index.html','Today'],['food','nutrition.html','Food'],['train','training.html','Train'],['progress','progress.html','Progress']];
 const nav=links.map(([id,href,label])=>'<a href="'+href+'" class="'+(page===id?'active':'')+'" '+(page===id?'aria-current="page"':'')+'>'+icon[id]+'<span>'+label+'</span></a>').join('');
-const name=state.profile.profile?.displayName||'Athlete',initial=name.trim().charAt(0).toUpperCase()||'A';
+const name=state.profile.profile?.displayName||'Athlete',parts=name.trim().split(/\s+/).filter(Boolean),initial=(parts.length>1?parts[0][0]+parts.at(-1)[0]:name.slice(0,2)).toUpperCase()||'A';
 const header=document.createElement('header');header.className='app-header';header.innerHTML='<div class="app-header-inner"><a class="app-wordmark" href="index.html" aria-label="Form home"><span>F</span><b>FORM</b></a><nav class="app-nav" aria-label="Primary">'+nav+'</nav><a class="profile-chip" href="index.html#settings" aria-label="Profile and backup"><span>'+initial+'</span><b>'+escapeHtml(name)+'</b></a></div>';
 const mobile=document.createElement('nav');mobile.className='app-mobile-nav';mobile.setAttribute('aria-label','Primary');mobile.innerHTML='<div class="nav-glider" aria-hidden="true"></div>'+nav;
 document.body.prepend(header);document.body.append(mobile);
@@ -34,7 +34,7 @@ observer.observe(document.body,{childList:true,subtree:true});
 enhancePage();
 syncMode();
 const modeObserver=new MutationObserver(syncMode);modeObserver.observe(document.body,{subtree:true,attributes:true,attributeFilter:['class']});
-function syncMode(){document.body.classList.toggle('session-live',!!document.querySelector('#activeWorkout:not(.hidden)'));document.body.classList.toggle('meal-composing',!!document.querySelector('#builderView.active'))}
+function syncMode(){document.body.classList.toggle('session-live',!!document.querySelector('#activeWorkout.visible'));document.body.classList.toggle('meal-composing',!!document.querySelector('#builderView.active'))}
 function enhancePage(){
  if(page==='today'){
   const hero=document.querySelector('.hero-panel'),energy=hero?.querySelector('.energy-readout'),macros=hero?.querySelector('#todayMacros');
@@ -46,7 +46,7 @@ function enhancePage(){
   document.querySelector('#builderView')?.classList.add('meal-studio');document.querySelector('#mealSlots')?.classList.add('fuel-timeline');
  }
  if(page==='train'){
-  const stage=document.querySelector('#startPanel');if(stage){stage.classList.add('training-chamber');const orb=document.createElement('div');orb.className='readiness-orb';orb.innerHTML='<i></i><i></i><i></i><span>READY</span>';stage.prepend(orb)}
+  const stage=document.querySelector('#startPanel');if(stage){stage.classList.add('training-chamber');const orb=document.createElement('button');orb.type='button';orb.className='readiness-orb';orb.setAttribute('aria-label','Start selected workout');orb.innerHTML='<i></i><i></i><i></i><span>START</span>';orb.onclick=()=>document.querySelector('#startWorkout')?.click();stage.prepend(orb)}
   document.querySelector('#activeWorkout')?.classList.add('live-chamber');
  }
  if(page==='progress'){
