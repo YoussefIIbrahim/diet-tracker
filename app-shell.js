@@ -18,5 +18,13 @@ const header=document.createElement('header');header.className='app-header';head
 const mobile=document.createElement('nav');mobile.className='app-mobile-nav';mobile.setAttribute('aria-label','Primary');mobile.innerHTML=nav;
 document.body.prepend(header);document.body.append(mobile);
 document.querySelectorAll('nav.nav,.top>.brand,.top>.status').forEach(x=>x.remove());
+
+const motionItems=[...document.querySelectorAll('main header:not(.app-header),.daily-spark,.overview-grid>*,.tabs,.layout>*,.training-layout>*,.progress-grid>*,.view.active>*,.settings-panel')].filter((x,i,a)=>a.indexOf(x)===i).slice(0,10);
+motionItems.forEach((el,i)=>{el.dataset.motionItem='';el.style.setProperty('--motion-delay',Math.min(i,6)*42+'ms')});
+requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.add('motion-ready')));
+document.addEventListener('pointerdown',e=>{const target=e.target.closest('button,.btn,.food,[data-food],.app-mobile-nav a');if(!target||matchMedia('(prefers-reduced-motion: reduce)').matches)return;const rect=target.getBoundingClientRect(),wave=document.createElement('i');wave.className='tap-wave';wave.style.left=e.clientX-rect.left+'px';wave.style.top=e.clientY-rect.top+'px';target.append(wave);wave.addEventListener('animationend',()=>wave.remove())});
+const observer=new MutationObserver(records=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;for(const record of records){for(const node of record.addedNodes){if(!(node instanceof HTMLElement))continue;if(node.matches('.exercise,.ingredient,.meal-row,.session,.set'))node.animate([{opacity:0,transform:'translateY(8px) scale(.97)'},{opacity:1,transform:'none'}],{duration:260,easing:'cubic-bezier(.16,1,.3,1)'});}}});
+observer.observe(document.body,{childList:true,subtree:true});
+
 function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 })();
