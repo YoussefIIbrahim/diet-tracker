@@ -8,7 +8,8 @@ if(!state.profile)return;
 const icon={
  today:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6.5 10v9h11v-9M9.5 19v-5h5v5"/></svg>',
  food:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v7M4.5 4v4.5A2.5 2.5 0 0 0 7 11v9M9.5 4v4.5A2.5 2.5 0 0 1 7 11M16 4c2.3 1.1 3.5 3.2 3.5 6 0 2.3-1.2 3.9-3.5 4.5V20M16 4v10.5"/></svg>',
- train:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8v8M3.5 9.5v5M18 8v8M20.5 9.5v5M6 12h12"/></svg>'
+ train:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8v8M3.5 9.5v5M18 8v8M20.5 9.5v5M6 12h12"/></svg>',
+ progress:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19V10M12 19V5M19 19v-7"/></svg>'
 };
 const links=[['today','index.html','Today'],['food','nutrition.html','Food'],['train','training.html','Train'],['progress','progress.html','Progress']];
 const nav=links.map(([id,href,label])=>'<a href="'+href+'" class="'+(page===id?'active':'')+'" '+(page===id?'aria-current="page"':'')+'>'+icon[id]+'<span>'+label+'</span></a>').join('');
