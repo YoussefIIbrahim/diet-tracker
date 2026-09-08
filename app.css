@@ -591,3 +591,11 @@ body.page-leaving .page-veil{opacity:1;clip-path:circle(150% at var(--veil-x,50%
  .page-food .simple-catalog .food,.page-food .online-catalog .food{width:100%;margin-bottom:7px}
  .page-food .food-source-line{margin-top:15px}
 }
+
+
+/* v16 · unified food search */
+.page-food .simple-food-toolbar{grid-template-columns:1fr}
+.page-food .simple-food-toolbar .universe-search{width:100%}
+.page-food .simple-catalog .online-food{border-color:rgba(200,244,93,.34);background:linear-gradient(145deg,rgba(200,244,93,.075),rgba(10,15,12,.7))}
+.page-food .simple-catalog .online-food small{color:#a9ba94}
+.page-food .simple-catalog .online-food .plus{filter:drop-shadow(0 0 8px rgba(200,244,93,.45))}
