@@ -648,3 +648,21 @@ body.page-leaving .page-veil{opacity:1;clip-path:circle(150% at var(--veil-x,50%
  .page-food .compact-meal-actions{grid-template-columns:1fr 1.35fr}
 }
 @media(max-width:380px){.page-food .minimal-builder-head{grid-template-columns:1fr}.page-food .compact-macro{padding:7px 5px}.page-food .compact-macro strong{font-size:.78rem}.page-food .compact-meal-actions{grid-template-columns:1fr}}
+
+
+/* v18 · camera barcode scanner */
+.page-food .minimal-search input{padding-right:56px}
+.page-food .camera-scan{position:absolute;z-index:3;right:7px;top:7px;width:40px;height:40px;border:1px solid var(--line);border-radius:12px;background:var(--surface-3);color:var(--brand);display:grid;place-items:center}
+.page-food .camera-scan svg{position:static;width:21px;height:21px;transform:none;stroke:currentColor;stroke-width:1.8;fill:none}
+.page-food .camera-scan:active{transform:scale(.94)}
+.scanner-dialog{width:min(520px,calc(100% - 20px));border:1px solid var(--glass-line);border-radius:24px;background:#0d1210;color:var(--text);padding:16px;box-shadow:0 30px 100px #000b}
+.scanner-dialog::backdrop{background:#000d;backdrop-filter:blur(10px)}
+.scanner-head{display:flex;align-items:start;justify-content:space-between;gap:16px;margin-bottom:12px}.scanner-head h2{margin:3px 0 0;font-size:1.2rem}
+.scanner-frame{position:relative;overflow:hidden;aspect-ratio:4/3;border-radius:18px;background:#050706}
+.scanner-frame video{width:100%;height:100%;display:block;object-fit:cover}
+.scanner-guide{position:absolute;inset:20%;border:2px solid rgba(200,244,93,.8);border-radius:14px;box-shadow:0 0 0 999px rgba(0,0,0,.3)}
+.scanner-guide i{position:absolute;left:8%;right:8%;top:50%;height:1px;background:var(--brand);box-shadow:0 0 12px var(--brand);animation:scanner-line 1.7s ease-in-out infinite}
+@keyframes scanner-line{0%,100%{transform:translateY(-42px);opacity:.45}50%{transform:translateY(42px);opacity:1}}
+.scanner-status{min-height:22px;margin:11px 3px 0;color:var(--muted);font-size:.76rem;text-align:center}
+@media(max-width:600px){.scanner-dialog{padding:12px;border-radius:21px}.scanner-frame{aspect-ratio:3/4}.scanner-guide{inset:27% 10%}}
+@media(prefers-reduced-motion:reduce){.scanner-guide i{animation:none}}
