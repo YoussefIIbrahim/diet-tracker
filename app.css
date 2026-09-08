@@ -599,3 +599,52 @@ body.page-leaving .page-veil{opacity:1;clip-path:circle(150% at var(--veil-x,50%
 .page-food .simple-catalog .online-food{border-color:rgba(200,244,93,.34);background:linear-gradient(145deg,rgba(200,244,93,.075),rgba(10,15,12,.7))}
 .page-food .simple-catalog .online-food small{color:#a9ba94}
 .page-food .simple-catalog .online-food .plus{filter:drop-shadow(0 0 8px rgba(200,244,93,.45))}
+
+
+/* v17 · minimal search-first meal builder */
+.page-food .meal-studio.active{display:block!important;max-width:780px;margin:0 auto}
+.page-food .minimal-meal-builder,.page-food .compact-meal-card{border:1px solid var(--glass-line);background:rgba(18,24,21,.74);backdrop-filter:blur(24px) saturate(145%);box-shadow:0 22px 70px rgba(0,0,0,.28)}
+.page-food .minimal-meal-builder{padding:22px;border-radius:24px}
+.page-food .minimal-builder-head{display:flex;justify-content:space-between;align-items:end;gap:20px}
+.page-food .minimal-builder-head h2{margin:3px 0 0;font-size:1.65rem;letter-spacing:-.04em}
+.page-food .minimal-slot{display:grid;gap:5px;width:190px}.page-food .minimal-slot>span{font-size:.7rem;color:var(--muted);font-weight:800}
+.page-food .minimal-search{position:relative;margin-top:18px}
+.page-food .minimal-search svg{position:absolute;z-index:2;left:14px;top:50%;width:19px;height:19px;transform:translateY(-50%);fill:none;stroke:var(--muted);stroke-width:1.8}
+.page-food .minimal-search input{height:54px;padding-left:44px;border-radius:16px;font-size:1rem}
+.page-food .minimal-result-status{min-height:30px;padding:10px 3px 5px;color:var(--muted);font-size:.72rem;font-weight:800}
+.page-food .minimal-results{display:grid;gap:6px;max-height:310px;overflow:auto}
+.page-food .minimal-placeholder{min-height:110px;border:1px dashed var(--line);border-radius:16px;display:grid;place-content:center;justify-items:center;gap:7px;color:var(--muted);text-align:center;padding:18px}
+.page-food .minimal-placeholder>span{font-size:1.5rem}.page-food .minimal-placeholder strong{font-size:.8rem;font-weight:700}
+.page-food .minimal-placeholder.loading>span{width:20px;height:20px;border:2px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:minimal-spin .8s linear infinite}
+@keyframes minimal-spin{to{transform:rotate(360deg)}}
+.page-food .minimal-result{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;min-height:62px;border:1px solid var(--line);border-radius:15px;background:var(--surface-3);color:var(--text);padding:10px 13px;text-align:left;transition:transform .16s,border-color .16s,background .16s}
+.page-food .minimal-result:hover{transform:translateY(-1px);border-color:var(--line-strong);background:#171e1a}.page-food .minimal-result:active{transform:scale(.985)}
+.page-food .minimal-result b,.page-food .minimal-result small{display:block}.page-food .minimal-result b{font-size:.82rem}.page-food .minimal-result small{color:var(--muted);font-size:.68rem;margin-top:3px}
+.page-food .minimal-result i{font-style:normal;color:var(--brand);font-size:1.2rem}
+.page-food .compact-meal-card{position:static!important;display:block!important;margin-top:12px;padding:18px;border-radius:22px;overflow:visible!important;max-height:none!important}
+.page-food .compact-meal-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.page-food .compact-meal-head>div{display:grid;gap:2px}.page-food .compact-meal-head strong{font-size:.9rem}
+.page-food .compact-meal-head .text-btn{color:var(--danger);padding:5px}
+.page-food .compact-picked{display:grid;gap:6px;margin-top:12px}
+.page-food .compact-empty{min-height:58px;display:grid;place-items:center;border:1px dashed var(--line);border-radius:14px;color:var(--muted);font-size:.76rem}
+.page-food .compact-ingredient{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px 11px;border:1px solid var(--line);border-radius:14px;background:var(--surface-3)}
+.page-food .compact-ingredient-copy{min-width:0}.page-food .compact-ingredient-copy b,.page-food .compact-ingredient-copy small{display:block}.page-food .compact-ingredient-copy b{font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.page-food .compact-ingredient-copy small{font-size:.65rem;color:var(--muted);margin-top:3px}
+.page-food .compact-portion{display:grid;grid-template-columns:32px 78px 32px 30px;gap:4px;align-items:center}
+.page-food .compact-portion button,.page-food .compact-portion input{height:34px;min-height:34px;border:1px solid var(--line);border-radius:9px;background:var(--surface-2);color:var(--text);text-align:center}
+.page-food .compact-portion label{position:relative}.page-food .compact-portion input{width:100%;padding:5px 22px 5px 5px}.page-food .compact-portion label span{position:absolute;right:8px;top:9px;color:var(--muted);font-size:.65rem}.page-food .compact-portion .compact-remove{border:0;background:transparent;color:var(--muted);font-size:1rem}
+.page-food .compact-macros{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
+.page-food .compact-macro{padding:9px;border:1px solid var(--line);border-radius:12px;background:rgba(8,12,10,.5)}.page-food .compact-macro strong,.page-food .compact-macro span{display:block}.page-food .compact-macro strong{font-size:.9rem}.page-food .compact-macro span{font-size:.62rem;color:var(--muted)}
+.page-food .compact-target-line{min-height:22px;padding:8px 2px 0;color:var(--muted);font-size:.68rem}
+.page-food .compact-meal-actions{display:grid;grid-template-columns:auto 1fr;gap:7px;margin-top:10px}.page-food .compact-meal-actions .btn{min-height:44px}
+@media(max-width:600px){
+ .page-food .meal-studio.active{width:100%}
+ .page-food .minimal-meal-builder{padding:16px;border-radius:20px}
+ .page-food .minimal-builder-head{align-items:stretch;display:grid;grid-template-columns:1fr 145px;gap:10px}
+ .page-food .minimal-builder-head h2{font-size:1.35rem}.page-food .minimal-slot{width:auto}
+ .page-food .minimal-search{margin-top:14px}.page-food .minimal-results{max-height:255px}
+ .page-food .compact-meal-card{padding:14px;border-radius:19px;margin-top:9px}
+ .page-food .compact-ingredient{grid-template-columns:1fr;gap:8px}.page-food .compact-portion{grid-template-columns:34px minmax(85px,1fr) 34px 32px}
+ .page-food .compact-macros{grid-template-columns:repeat(4,1fr)}
+ .page-food .compact-meal-actions{grid-template-columns:1fr 1.35fr}
+}
+@media(max-width:380px){.page-food .minimal-builder-head{grid-template-columns:1fr}.page-food .compact-macro{padding:7px 5px}.page-food .compact-macro strong{font-size:.78rem}.page-food .compact-meal-actions{grid-template-columns:1fr}}
