@@ -555,3 +555,39 @@ body.page-leaving .page-veil{opacity:1;clip-path:circle(150% at var(--veil-x,50%
  .page-food .floating-meal-tray.has-items,.page-food .floating-meal-tray[open]{bottom:calc(62px + env(safe-area-inset-bottom))}
  .session-live.page-train .shell{padding:14px 10px calc(72px + env(safe-area-inset-bottom))!important}
 }
+
+
+/* v15 · simple food chooser */
+.page-food .simple-food-builder{min-height:auto;padding:28px;border-radius:28px;display:block}
+.page-food .simple-builder-head{display:grid;grid-template-columns:1fr 190px;gap:20px;align-items:end}
+.page-food .simple-food-builder .universe-copy h2{font-size:clamp(2.1rem,5vw,4.2rem);margin:.18em 0 .12em}
+.page-food .simple-food-builder .universe-copy .sub{max-width:560px;margin:0}
+.page-food .simple-food-builder .universe-slot{position:static;width:auto;margin:0}
+.page-food .simple-food-toolbar{display:grid;grid-template-columns:1fr auto;gap:9px;margin-top:24px}
+.page-food .simple-food-toolbar .universe-search{margin:0}
+.page-food .online-search{min-width:145px}
+.page-food .food-source-line{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 2px 7px}
+.page-food .food-source-line>span{font-size:.74rem;font-weight:850;color:var(--muted);letter-spacing:.04em}
+.page-food .food-source-line .text-btn{color:var(--brand);padding:5px 0}
+.page-food .simple-categories{display:flex!important;gap:6px;overflow:auto;padding:4px 0 10px;scrollbar-width:none}
+.page-food .simple-categories::-webkit-scrollbar{display:none}
+.page-food .simple-catalog{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px!important;padding:0!important;max-height:460px!important;overflow:auto!important}
+.page-food .simple-catalog .food{min-height:66px!important}
+.page-food .online-results{margin-top:14px;padding:14px;border:1px solid var(--glass-line);background:rgba(8,12,10,.52);border-radius:20px}
+.page-food .online-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.page-food .online-head>div{display:grid;gap:3px}.page-food .online-head strong{font-size:.88rem}
+.page-food .online-catalog{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:360px;overflow:auto}
+.page-food .online-food{border-color:rgba(200,244,93,.2)}
+.page-food .online-food small:after{content:" · live label";color:var(--brand)}
+.page-food .simple-food-builder .saved-shelf{margin-top:16px}
+@media(max-width:760px){
+ .page-food .simple-food-builder{padding:20px 16px;border-radius:26px;min-height:auto}
+ .page-food .simple-builder-head{grid-template-columns:1fr;gap:14px}
+ .page-food .simple-food-builder .universe-copy h2{font-size:2.55rem!important}
+ .page-food .simple-food-builder .universe-slot{margin:0;width:100%}
+ .page-food .simple-food-toolbar{grid-template-columns:1fr;margin-top:18px}
+ .page-food .online-search{width:100%}
+ .page-food .simple-catalog,.page-food .online-catalog{display:block!important;max-height:43dvh!important}
+ .page-food .simple-catalog .food,.page-food .online-catalog .food{width:100%;margin-bottom:7px}
+ .page-food .food-source-line{margin-top:15px}
+}
